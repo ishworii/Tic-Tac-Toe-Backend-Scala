@@ -11,13 +11,12 @@ object MiniMax {
             val rows = (0 until cellSize).map(row => (0 until cellSize).map(col => row * cellSize + col))
             val cols = (0 until cellSize).map(col => (0 until cellSize).map(row => row * cellSize + col))
             val diagonal1 = (0 until cellSize).map(i => i * (cellSize + 1))
-            val diagonal2 = (1 to cellSize).map(i => i * (cellSize - 1))
+            val diagonal2 = (0 until cellSize).map(i => (i + 1) * (cellSize - 1))
 
             (rows ++ cols :+ diagonal1 :+ diagonal2).map(_.toSeq)
         })
     }
 
-    // Entry point for finding the best move
     def findBestMove(board: Array[Option[Char]], cellSize: Int): Int = {
         val emptyCells = board.zipWithIndex.collect { case (None, index) => index }
         var bestScore = Int.MinValue
@@ -40,14 +39,13 @@ object MiniMax {
         bestMove
     }
 
-    // Recursive MiniMax with Alpha-Beta Pruning
     private def minimax(board: Array[Option[Char]], cellSize: Int, depth: Int, isMaximizing: Boolean, alpha: Int, beta: Int, winningCombinations: Seq[Seq[Int]]): Int = {
         val emptyCells = board.zipWithIndex.collect { case (None, index) => index }
 
-        // Evaluate the board for a win/loss or if the game is a draw
+        // Base case: Evaluate the board
         val score = evaluate(board, winningCombinations)
-        if (score == 10 || score == -10 || emptyCells.isEmpty) {
-            return score - depth // Prefer quicker wins or slower losses
+        if (score == 10 || score == -10 || emptyCells.isEmpty || depth >= 6) {
+            return if (depth >= 6) heuristicEvaluate(board, cellSize) else score - depth // Use heuristic evaluation at depth limit
         }
 
         var localAlpha = alpha
@@ -80,6 +78,33 @@ object MiniMax {
             }
             bestScore
         }
+    }
+
+    private def heuristicEvaluate(board: Array[Option[Char]], cellSize: Int): Int = {
+        val center = cellSize / 2
+        val winningCombinations = generateWinningCombinations(cellSize)
+        var score = 0
+
+        for (combo <- winningCombinations) {
+            val values = combo.map(board)
+            val oCount = values.count(_ == Some('O'))
+            val xCount = values.count(_ == Some('X'))
+
+            if (xCount == 0) score += oCount * oCount // Prioritize lines with only AI pieces
+            if (oCount == 0) score -= xCount * xCount // Penalize lines with only opponent pieces
+        }
+
+        // Slightly favor central positions for better control
+        for (i <- board.indices) {
+            if (board(i).contains('O')) {
+                val row = i / cellSize
+                val col = i % cellSize
+                val centerProximity = math.abs(center - row) + math.abs(center - col)
+                score += cellSize - centerProximity
+            }
+        }
+
+        score
     }
 
     // Evaluate the board for a win or loss
