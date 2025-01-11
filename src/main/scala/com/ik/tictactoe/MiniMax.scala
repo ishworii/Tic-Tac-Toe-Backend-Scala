@@ -87,8 +87,8 @@ object MiniMax {
 
         for (combo <- winningCombinations) {
             val values = combo.map(board)
-            val oCount = values.count(_ == Some('O'))
-            val xCount = values.count(_ == Some('X'))
+            val oCount = values.count(_.contains('O'))
+            val xCount = values.count(_.contains('X'))
 
             if (xCount == 0) score += oCount * oCount // Prioritize lines with only AI pieces
             if (oCount == 0) score -= xCount * xCount // Penalize lines with only opponent pieces
@@ -111,8 +111,8 @@ object MiniMax {
     private def evaluate(board: Array[Option[Char]], winningCombinations: Seq[Seq[Int]]): Int = {
         for (combo <- winningCombinations) {
             val values = combo.map(board)
-            if (values.forall(_ == Some('O'))) return 10 // AI wins
-            if (values.forall(_ == Some('X'))) return -10 // Opponent wins
+            if (values.forall(_.contains('O'))) return 10 // AI wins
+            if (values.forall(_.contains('X'))) return -10 // Opponent wins
         }
         0 // No winner
     }
