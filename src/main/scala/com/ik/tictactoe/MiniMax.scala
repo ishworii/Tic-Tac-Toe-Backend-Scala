@@ -44,8 +44,8 @@ object MiniMax {
 
         // Base case: Evaluate the board
         val score = evaluate(board, winningCombinations)
-        if (score == 10 || score == -10 || emptyCells.isEmpty || depth >= 6) {
-            return if (depth >= 6) heuristicEvaluate(board, cellSize) else score - depth // Use heuristic evaluation at depth limit
+        if (score == 10 || score == -10 || emptyCells.isEmpty || depth >= 7) {
+            return if (depth >= 7) heuristicEvaluate(board, cellSize) else score - depth // Use heuristic evaluation at depth limit
         }
 
         var localAlpha = alpha
@@ -116,4 +116,5 @@ object MiniMax {
         }
         0 // No winner
     }
+
 }

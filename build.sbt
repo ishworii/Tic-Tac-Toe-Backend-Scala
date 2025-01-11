@@ -9,5 +9,6 @@ libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
     "io.spray" %% "spray-json" % "1.3.6",
-    "ch.megard" %% "akka-http-cors" % "1.2.0"
+    "ch.megard" %% "akka-http-cors" % "1.2.0",
+    "org.scalatest" %% "scalatest" % "3.2.19" % "test"
 )
