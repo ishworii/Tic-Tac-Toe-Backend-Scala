@@ -40,8 +40,8 @@ This is a **Tic Tac Toe AI** implementation in **Scala** that uses the **MiniMax
 
 #### **Clone the Repository**
 ```bash
-git clone https://github.com/your-repository/tic-tac-toe-ai.git
-cd tic-tac-toe-ai
+git clone git@github.com:ishworii/Tic-Tac-Toe-Backend-Scala.git
+cd Tic-Tac-Toe-Backend-Scala
 ```
 
 #### **Run the Application**
@@ -158,14 +158,3 @@ sbt test
 - **Dynamic Difficulty**: Introduce multiple difficulty levels by adjusting depth and heuristic weights.
 - **Web-Based UI**: Integrate with a front-end framework (e.g., React) for a more interactive experience.
 
----
-
-### **Contributors**
-- [Your Name](https://github.com/your-profile)
-
-Feel free to submit issues and feature requests!
-
----
-
-### **License**
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
